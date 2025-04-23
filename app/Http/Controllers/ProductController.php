@@ -110,21 +110,49 @@ class ProductController extends Controller
         return redirect()->route('products.index')->with('success', 'تم حذف المنتج.');
     }
 
+    /**
+     * Search for products, potentially within a specific category context.
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
+     */
     public function search(Request $request)
     {
         $query = $request->input('query');
+        $categoryContextName = $request->input('category_context'); // Get the category name if provided
 
         if (!$query) {
-            // Redirect back or show an error/empty page if query is empty
-            return redirect()->route('home')->with('error', 'Please enter a search term.');
+            return redirect()->back()->with('error', 'Please enter a search term.'); // Redirect back is often better
         }
 
-        // Simple search in name and description
-        $products = Product::where('name', 'LIKE', "%{$query}%")
-            ->orWhere('price', 'LIKE', "%{$query}%") // Optional: search description too
-            ->paginate(16); // Paginate results
+        // Start building the query
+        $productsQuery = Product::query();
 
-        // Pass the query back to the view if needed for display
-        return view('products.search-results', compact('products', 'query'));
+        // --- Apply Category Context Filter ---
+        if ($categoryContextName) {
+            // If a category context is provided, filter products belonging to that category
+            // Assumes a 'categories' relationship exists on the Product model
+            // And the Category model has a 'name' column
+            $productsQuery->whereHas('category', function ($q) use ($categoryContextName) {
+                $q->where('name', $categoryContextName);
+            });
+        }
+        // --- No else needed: if no category context, search all products ---
+
+
+        // --- Apply Search Term Filter ---
+        // Search in product name AND description (more useful than price usually)
+        $productsQuery->where(function ($q) use ($query) {
+            $q->where('name', 'LIKE', "%{$query}%"); // Added description search
+        });
+
+        // --- Fetch and Paginate Results ---
+        $products = $productsQuery->paginate(100);
+
+        // Append query parameters to pagination links
+        $products->appends($request->except('page'));
+
+        // Pass data to the search results view
+        return view('products.search-results', compact('products', 'query', 'categoryContextName'));
     }
 }

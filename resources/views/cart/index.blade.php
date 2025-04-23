@@ -2,6 +2,11 @@
 
 @section('content')
     <div class="container mt-5">
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
         <h2 style="font-weight: bold;margin-bottom:30px;">Your Cart</h2>
         
         @if($cartItems->isNotEmpty())

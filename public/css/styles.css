@@ -1,12 +1,35 @@
+/* public/css/styles.css */
+
 body {
     margin: 0;
     font-family: 'Arial', sans-serif;
+    line-height: 1.5;
+    /* Added for better readability */
+}
+
+.logout-button {
+    margin-left: 30px;
+    background-color: #ff3300;
+    color: #333;
+    border: none;
+    padding: 8px 12px;
+    /* Adjusted padding */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    white-space: nowrap; /* Or remove this if you want plain text */
+}
+
+.logout-button:hover {
+    text-decoration: none;
+    opacity: 0.8;
 }
 
 header {
     background-color: #000000;
     color: #ffffff;
-    padding: 15px 20px;
+    padding: 10px 20px;
+    /* Adjusted padding slightly */
     position: sticky;
     top: 0;
     z-index: 999;
@@ -16,46 +39,75 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-.cart-icon {
-    font-size: 24px;
-    margin-left: 15px;
-}
-
-.cart-icon a {
-    color: white;
-    text-decoration: none;
+    flex-wrap: wrap;
+    /* Allow wrapping on very small screens if needed */
 }
 
 .logo {
     display: flex;
     flex-direction: column;
+    flex-shrink: 0;
+    /* Prevent logo from shrinking too much */
 }
 
 .logo p {
     margin: 0;
-    font-size: 1.2em;
     color: #4caf50;
 }
 
+/* Navigation Container */
+.navbar nav {
+    flex-grow: 1;
+    /* Allow nav to take available space */
+    margin: 0 15px;
+    /* Spacing between logo/search and nav */
+    display: flex;
+    /* Ensure nav itself is flex container for its ul */
+    justify-content: center;
+    /* Center the nav items if space allows */
+}
+
+/* Navigation List (UL) - Key changes here */
 nav ul {
     list-style: none;
     display: flex;
+    flex-wrap: wrap;
+    /* *** Allow items to wrap to the next line *** */
+    gap: 10px 15px;
+    /* *** Spacing between items (row-gap column-gap) *** */
     margin: 0;
     padding: 0;
+    align-items: center;
+    /* Keep items vertically aligned */
+    justify-content: center;
+    /* Center items within the nav */
 }
 
+/* Navigation List Item (LI) */
 nav li {
-    margin-right: 100px;
+    /* margin-right: 100px; */
+    /* *** REMOVED large margin *** */
+    margin: 0;
+    /* Reset margin as gap is used now */
+    display: flex;
+    /* Helps with vertical alignment if needed */
+    align-items: center;
 }
 
+/* Navigation Link (A) */
 nav a {
     text-decoration: none;
     color: #ffffff;
     font-weight: bold;
-    font-size: 1.2em;
+    font-size: 1.1em;
+    /* Slightly adjusted font size */
     transition: color 0.3s ease-in-out;
+    padding: 5px 8px;
+    /* Padding for click area and visual spacing */
+    display: block;
+    /* Ensure padding works correctly */
+    white-space: nowrap;
+    /* Prevent category names from breaking mid-word */
 }
 
 nav a:hover {
@@ -65,97 +117,276 @@ nav a:hover {
 .search {
     display: flex;
     align-items: center;
+    flex-shrink: 0;
+    /* Prevent search from shrinking too much */
+    margin-left: 10px;
+    /* Add some space if nav grows */
 }
 
 .search input {
     padding: 8px;
-    margin-right: 10px;
+    margin-right: 5px;
+    /* Reduced margin */
     border: none;
     border-radius: 5px;
+    min-width: 150px;
+    /* Give search input a minimum width */
 }
 
 .search button {
     background-color: #ffee00;
     color: #333;
     border: none;
-    padding: 8px 15px;
+    padding: 8px 12px;
+    /* Adjusted padding */
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease-in-out;
+    white-space: nowrap;
 }
 
 .search button:hover {
     background-color: #ffc107;
 }
 
-@media screen and (max-width: 768px) {
-    .navbar {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    nav {
-        margin-top: 10px;
-    }
-
-    nav ul {
-        flex-direction: column;
-    }
-
-    nav li {
-        margin-right: 0;
-        margin-bottom: 10px;
-    }
-
-    .search {
-        margin-top: 10px;
-    }
+.cart-icon {
+    font-size: 24px;
+    margin-left: 15px;
+    /* Spacing from search */
+    flex-shrink: 0;
 }
 
+.cart-icon a {
+    color: white;
+    text-decoration: none;
+    position: relative;
+    /* Needed for badge positioning */
+    display: inline-block;
+}
+
+/* Optional Cart Count Badge Styling */
+.cart-count-badge {
+    background-color: #ff0000;
+    color: white;
+    border-radius: 50%;
+    padding: 1px 5px;
+    font-size: 0.75em;
+    font-weight: bold;
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    line-height: 1;
+    display: none;
+    /* Shown via JS if items > 0 */
+}
+
+
+/* === Dropdown Styling for Navbar - Refined for Project Spirit === */
+
+.navbar nav ul li.dropdown {
+    position: relative;
+    /* Essential for positioning the dropdown menu */
+}
+
+.navbar nav ul li.dropdown .dropdown-menu {
+    display: none;
+    /* Hidden by default */
+    position: absolute;
+    /* Position relative to the parent li.dropdown */
+    top: 100%;
+    /* Appear directly below the parent */
+    left: 0;
+    /* Align with the left edge of the parent */
+    /* Use header background color */
+    background-color: #000000;
+    min-width: 180px;
+    /* Minimum width */
+    /* Add a subtle border similar to product cards but darker */
+    border: 1px solid #444;
+    /* Subtle dark grey border */
+    /* Match border-radius from buttons/inputs/titles */
+    border-radius: 5px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.4);
+    /* Slightly enhanced shadow */
+    z-index: 1000;
+    /* Ensure it appears above other elements */
+    padding: 5px 0;
+    /* Padding inside the menu */
+    /* Add a small top margin to visually separate from "More" link */
+    margin: 2px 0 0 0;
+    list-style: none;
+}
+
+/* Show the menu on hover over the parent li.dropdown */
+.navbar nav ul li.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+/* Ensure dropdown list items have no extra margin */
+.navbar nav ul li.dropdown .dropdown-menu li {
+    margin: 0;
+}
+
+/* Styling for links (a) inside the dropdown */
+.navbar nav ul li.dropdown .dropdown-menu li a.dropdown-item {
+    display: block;
+    /* Make the link fill the li */
+    padding: 8px 15px;
+    /* Adjusted padding for balance */
+    /* Ensure text is white like main nav */
+    color: #ffffff;
+    text-decoration: none;
+    white-space: nowrap;
+    /* Prevent wrapping */
+    font-size: 0.95em;
+    /* Slightly smaller font */
+    font-weight: normal;
+    /* Override potential bold inheritance */
+    /* Use similar transitions as main nav links */
+    transition: color 0.3s ease-in-out, background-color 0.2s ease;
+}
+
+/* Hover effect for dropdown items */
+.navbar nav ul li.dropdown .dropdown-menu li a.dropdown-item:hover {
+    /* Change text color to match main nav hover color */
+    color: #ffd700;
+    /* Use a subtle background change, slightly darker than the menu bg */
+    background-color: #222;
+}
+
+/* Ensure "More" link inherits main nav link styles */
+/* (Styles should apply automatically via 'nav a' rule, but cursor needs override) */
+.navbar nav ul li.dropdown a.dropdown-toggle {
+    cursor: default;
+    /* Indicate it's not a direct link */
+}
+
+/* Caret icon styling */
+.navbar nav ul li.dropdown a.dropdown-toggle .fa-caret-down {
+    margin-left: 5px;
+    /* Space after "More" text */
+    vertical-align: middle;
+    /* Better vertical alignment */
+    font-size: 0.9em;
+    /* Make caret slightly smaller */
+    /* Ensure icon color matches the link text */
+    color: inherit;
+}
+
+/* === End Dropdown Styling === */
+
+
+/* --- Content & Product Styling (Mostly unchanged) --- */
 .container {
-    display: grid;
-    gap: 1rem;
-    min-height: 100vh;
+    /* display: grid; */
+    /* Commented out if causing issues, can use normal flow */
+    /* gap: 1rem; */
+    padding: 1rem;
+    /* Added padding to container */
+    min-height: 70vh;
+    /* Ensure minimum height */
 }
 
 .category {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    /* Adjusted minmax for better responsiveness */
+    gap: 1.5rem;
+    /* Increased gap slightly */
+    margin-bottom: 2rem;
+    /* Space below each category section */
 }
 
 .product {
     position: relative;
-    max-height: auto;
     border: 1px solid #ddd;
     padding: 15px;
     text-align: center;
     display: flex;
     flex-direction: column;
-    line-height: 1.5rem;
+    /* line-height: 1.5rem; */
+    /* Removed, using body line-height */
     transition: box-shadow 0.3s ease-in-out;
+    background-color: #fff;
+    /* Added white background */
+    border-radius: 5px;
+    /* Added border radius */
+    overflow: hidden;
+    /* Hide overflowing content */
 }
 
 .product:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     cursor: pointer;
 }
 
-img {
+.product img {
+    /* Changed from direct img tag for better specificity */
     max-width: 100%;
     height: 200px;
-    object-fit: fill;
+    /* Fixed height */
+    object-fit: cover;
+    /* Changed to cover for better aspect ratio */
     overflow: hidden;
     transition: transform 0.3s ease-in-out;
     margin-bottom: 1rem;
+    display: block;
+    /* Remove extra space below image */
+    margin-left: auto;
+    /* Center image if container is wider */
+    margin-right: auto;
 }
 
-.product:hover img {
+.product:hover .image-placeholder img {
+    /* Target image inside placeholder on hover */
     transform: scale(1.05);
 }
 
+.product h3 {
+    margin: 0.5rem 0;
+    /* Adjusted margin */
+    font-size: 1.1em;
+}
+
+.price {
+    color: #e74c3c;
+    /* Changed color slightly */
+    font-weight: 600;
+    margin: 0.25rem 0 0.75rem 0;
+    /* Adjusted margin */
+    font-size: 1.05em;
+}
+
+.qyt {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    /* Space before button */
+}
+
+.qyt label {
+    margin-right: 5px;
+    font-size: 0.9em;
+}
+
+.qyt input {
+    width: 45px;
+    /* Slightly wider */
+    padding: 5px;
+    text-align: center;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    /* Adjusted border */
+    transition: border-color 0.3s ease-in-out;
+}
+
+.qyt input:focus {
+    border-color: #4caf50;
+    outline: none;
+}
+
 .productbtns button {
-    margin-top: 1rem;
     cursor: pointer;
     background-color: #4caf50;
     color: white;
@@ -164,137 +395,36 @@ img {
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
+    font-size: 1em;
+    /* Adjusted font size */
     border-radius: 5px;
     transition: background-color 0.3s ease-in-out;
-    margin-bottom: 1rem;
-    cursor: pointer;
+    width: auto;
+    /* Allow button to size naturally */
+    margin-top: auto;
+    /* Push button to bottom if card height varies */
 }
 
 .productbtns button:hover {
-    background-color: #ffc400;
+    background-color: #45a049;
+    /* Darker green on hover */
 }
 
-.qyt {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.qyt input {
-    width: 30px;
-    border-radius: 0.1rem;
-    border: 0.1rem solid #000000;
-    transition: border-color 0.3s ease-in-out;
-}
-
-.price {
-    color: #ff0000;
-    font-weight: 600;
-    margin: 0 0;
-}
-
-.qyt input,
-.qyt label {
-    margin: 0px 10px;
-}
-
-.product h3 {
-    margin: 0 0;
-}
 
 .image-placeholder {
     width: 100%;
     height: 200px;
+    /* Match image height */
     margin-bottom: 1rem;
     overflow: hidden;
     position: relative;
+    /* Needed for absolute positioned children */
     cursor: pointer;
-    transition: transform 0.3s ease-in-out;
+    /* transition: transform 0.3s ease-in-out; */
+    /* Transition applied to img directly */
 }
 
-.image-placeholder:hover {
-    transform: scale(1.05);
-}
-
-footer {
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    padding: 10px;
-    position: relative;
-    bottom: 0;
-    width: auto;
-    padding: 1rem 0rem;
-}
-
-footer p {
-    margin: 0;
-    font-size: 0.9em;
-}
-
-@media screen and (max-width: 768px) {
-    footer {
-        font-size: 0.8em;
-    }
-}
-
-@media screen and (max-width: 600px) {
-    .search {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .search input {
-        width: 100%;
-    }
-
-    .search button {
-        width: 100%;
-        margin-top: 5px;
-    }
-}
-
-#vegetables {
-    background-color: #000000;
-    /* Green */
-    color: white;
-    /* Text color */
-    padding: 10px;
-    /* Adds spacing inside */
-    border-radius: 5px;
-    /* Rounded corners */
-    text-align: center;
-    /* Centers the text */
-}
-
-#fruits {
-    background-color: #000000;
-    /* Orange */
-    color: white;
-    /* Text color */
-    padding: 10px;
-    /* Adds spacing inside */
-    border-radius: 5px;
-    /* Rounded corners */
-    text-align: center;
-    /* Centers the text */
-}
-
-#drinks {
-    background-color: #000000;
-    /* Dodger Blue */
-    color: white;
-    /* Text color */
-    padding: 10px;
-    /* Adds spacing inside */
-    border-radius: 5px;
-    /* Rounded corners */
-    text-align: center;
-    /* Centers the text */
-}
-
-
+/* Favorite Icon Styling (Unchanged) */
 .favorite-icon {
     position: absolute;
     top: 10px;
@@ -303,12 +433,239 @@ footer p {
     color: #ccc;
     font-size: 20px;
     z-index: 1;
+    background-color: rgba(255, 255, 255, 0.7);
+    /* Semi-transparent background */
+    border-radius: 50%;
+    padding: 5px;
+    line-height: 1;
+    /* Ensure icon is centered in padding */
 }
 
 .favorite-icon.active {
     color: red;
 }
 
-.product {
-    position: relative;
+/* Category Title Styling (Unchanged) */
+h2.category-head {
+    /* Combined selectors */
+    background-color: #000000;
+    color: white;
+    padding: 12px 15px;
+    /* Adjusted padding */
+    border-radius: 5px;
+    text-align: center;
+    margin-top: 2rem;
+    /* Space above category titles */
+    margin-bottom: 1.5rem;
+    /* Space below titles */
+    font-size: 1.5em;
+    /* Make titles larger */
+    font-weight: bold;
+}
+
+/* Specific colors if needed, otherwise keep black */
+/* #vegetables { background-color: #27ae60; } */
+/* #fruits { background-color: #f39c12; } */
+/* #Drinks { background-color: #3498db; } */
+
+
+/* --- Footer Styling (Unchanged) --- */
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 15px 0;
+    /* Adjusted padding */
+    /* position: relative; */
+    /* Removed, let it flow naturally */
+    /* bottom: 0; */
+    width: 100%;
+    /* Ensure full width */
+    margin-top: 40px;
+    /* Space above footer */
+    font-size: 0.9em;
+}
+
+footer p {
+    margin: 5px 0;
+    /* Spacing for paragraphs */
+}
+
+footer a {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.social-icons a {
+    margin: 0 10px;
+    color: #fff;
+    font-size: 1.2em;
+    text-decoration: none;
+}
+
+.social-icons a:hover {
+    color: #ffd700;
+}
+
+
+/* --- Media Queries --- */
+
+/* Medium screens (tablets) */
+@media screen and (max-width: 992px) {
+    .navbar nav {
+        justify-content: flex-start;
+        /* Align nav items left on smaller screens */
+        margin: 10px 0;
+        /* Add vertical margin */
+        width: 100%;
+        /* Allow nav to take full width if needed */
+        order: 3;
+        /* Change order: Logo, Search, Nav */
+    }
+
+    nav ul {
+        justify-content: flex-start;
+        /* Align items left */
+        gap: 5px 10px;
+        /* Reduce gap */
+    }
+
+    nav a {
+        font-size: 1em;
+        /* Slightly smaller font */
+        padding: 4px 6px;
+    }
+
+    .search {
+        order: 2;
+        /* Search comes after logo */
+        margin-left: auto;
+        /* Push search to the right */
+        margin-right: 10px;
+    }
+
+    .search input {
+        min-width: 120px;
+    }
+
+    .logo {
+        order: 1;
+    }
+
+    .cart-icon {
+        order: 4;
+        margin-left: 10px;
+    }
+
+    /* Cart icon last */
+
+    /* Adjust product grid */
+    .category {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1rem;
+    }
+
+    .product img,
+    .image-placeholder {
+        height: 180px;
+    }
+
+}
+
+/* Small screens (mobile) */
+@media screen and (max-width: 767px) {
+    .navbar {
+        flex-direction: column;
+        /* Stack elements vertically */
+        align-items: stretch;
+        /* Stretch items to full width */
+    }
+
+    .navbar nav,
+    .search,
+    .cart-icon,
+    .logo {
+        order: 0;
+        /* Reset order */
+        width: 100%;
+        /* Make elements full width */
+        margin: 5px 0;
+        /* Add vertical spacing */
+    }
+
+    .navbar nav {
+        margin: 10px 0;
+    }
+
+    nav ul {
+        justify-content: center;
+        /* Center items on mobile */
+    }
+
+    .search {
+        flex-direction: column;
+        /* Stack search input and button */
+        align-items: stretch;
+    }
+
+    .search input {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 5px;
+        /* Space between input and button */
+        box-sizing: border-box;
+        /* Include padding/border in width */
+    }
+
+    .search button {
+        width: 100%;
+    }
+
+    .cart-icon {
+        text-align: right;
+        /* Align cart icon right */
+        margin-top: 10px;
+    }
+
+    .logo {
+        text-align: center;
+        /* Center logo text */
+    }
+
+    footer {
+        font-size: 0.8em;
+    }
+
+    .category {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        /* Further adjust grid */
+    }
+
+    .product img,
+    .image-placeholder {
+        height: 160px;
+    }
+
+    #vegetables,
+    #fruits,
+    #Drinks {
+        font-size: 1.3em;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .category {
+        /* Single column on very small screens */
+        grid-template-columns: 1fr;
+    }
+
+    .product img,
+    .image-placeholder {
+        height: 180px;
+        /* Maybe slightly larger image on single column */
+    }
+
+    nav a {
+        font-size: 0.9em;
+    }
 }
