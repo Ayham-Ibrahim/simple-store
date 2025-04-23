@@ -86,7 +86,7 @@ class CategoryController extends Controller
     {
         // Load products associated with this category
         // Add pagination if needed
-        $products = $category->products()->paginate(12); // Example: 12 products per page
+        $products = $category->products()->paginate(100); // Example: 12 products per page
 
         return view('products.category', compact('category', 'products'));
     }

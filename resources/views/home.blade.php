@@ -12,17 +12,17 @@
 {{-- Loop through categories passed from the controller --}}
 @foreach($categoriesWithProducts as $category)
 <section>
+    {{-- Check if products exist in this category --}}
+    @if($category->products->isEmpty())
+    {{-- <p>No products found in this category.</p> --}}
+    @else
     {{-- Display category name, link to category page --}}
-    <h2 id="{{ $category->name }}">
+    <h2 class="category-head" id="{{ $category->name }}">
         <a href="{{ route('category.show', $category->name) }}" style="color: white; text-decoration: none;">
             {{ $category->name }}
         </a>
     </h2>
 
-    {{-- Check if products exist in this category --}}
-    @if($category->products->isEmpty())
-    <p>No products found in this category.</p>
-    @else
     <div class="category">
         {{-- Loop through products in the category --}}
         @foreach($category->products as $product)

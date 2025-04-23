@@ -5,7 +5,7 @@
 
 @section('content')
 <section>
-    <h2 id="{{ $category->name }}">
+    <h2 class="category-head" id="{{ $category->name }}">
         <a href="{{ route('category.show', $category->name) }}" style="color: white; text-decoration: none;">
             {{ $category->name }}
         </a>

@@ -22,7 +22,7 @@ class HomeController extends Controller
         // Eager load products to avoid N+1 problem
         // Limit products per category for the home page if needed
         $categoriesWithProducts = Category::with(['products' => function ($query) {
-            $query->limit(8); // Example: Show max 8 products per category on home
+            $query->limit(100); // Example: Show max 8 products per category on home
         }])->get();
 
         return view('home', compact('categoriesWithProducts'));
