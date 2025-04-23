@@ -2,16 +2,16 @@
 
 @section('content')
 <div class="container">
-    <h2>كل المنتجات</h2>
-    <a href="{{ route('products.create') }}" class="btn btn-success mb-3">إضافة منتج</a>
+    <h2>Products</h2>
+    <a href="{{ route('products.create') }}" class="btn btn-primary mb-3">Add Products</a>
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>الصورة</th>
-                <th>الاسم</th>
-                <th>الوحدة</th>
-                <th>السعر</th>
-                <th>التحكم</th>
+                <th>image</th>
+                <th>name</th>
+                <th>unit</th>
+                <th>price</th>
+                <th>actions</th>
             </tr>
         </thead>
         <tbody>
@@ -22,11 +22,11 @@
                 <td>{{ $product->unit}}</td>
                 <td>{{ $product->price }} ID</td>
                 <td>
-                    <a href="{{ route('products.edit', $product->id) }}" class="btn btn-primary btn-sm">تعديل</a>
+                    <a href="{{ route('products.edit', $product->id) }}" class="btn btn-primary btn-sm">edit</a>
                     <form action="{{ route('products.destroy', $product->id) }}" method="POST" style="display:inline">
                         @csrf
                         @method('DELETE')
-                        <button class="btn btn-danger btn-sm" onclick="return confirm('هل أنت متأكد؟')">حذف</button>
+                        <button class="btn btn-danger btn-sm" onclick="return confirm('are you sure?')">delete</button>
                     </form>
                 </td>
             </tr>

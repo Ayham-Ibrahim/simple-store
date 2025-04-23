@@ -3,63 +3,73 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function add(Request $request)
     {
-        //
+        try {
+            // التحقق من صحة البيانات المدخلة
+            $validated = $request->validate([
+                'product_id' => 'required|exists:products,id',
+                'quantity' => 'required|integer|min:1',
+            ]);
+            
+            // العثور على المنتج
+            $product = Product::find($validated['product_id']);
+            $totalPrice = $product->price * $validated['quantity'];
+
+            // إضافة أو تحديث المنتج في السلة
+            $cart = Cart::create([
+                'user_id' => auth()->id(),
+                'product_id' => $request->product_id,
+                'quantity' => $request->quantity,
+                'total_price' => $totalPrice,
+            ]);
+            
+            // إرجاع استجابة JSON
+            return response()->json([
+                'message' => 'Product added to cart successfully',
+                'cart_count' => auth()->user()->cartItems->count() // اجلب عدد العناصر في السلة
+            ], 200);
+
+        } catch (\Exception $e) {
+            // في حال حدوث خطأ، أرجع رسالة خطأ مع التفاصيل
+            return response()->json([
+                'error' => 'Error adding product to cart',
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function show()
     {
-        //
+        $user = auth()->user();
+        $cartItems = Cart::with('product')->where('user_id', $user->id)->get();
+
+        return view('cart.index', compact('cartItems'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function remove($cartId)
     {
-        //
+        $cartItem = Cart::findOrFail($cartId);
+        $cartItem->delete();
+
+        return redirect()->route('cart.show')->with('success', 'Product removed from cart');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Cart $cart)
+    public function checkout(Request $request)
     {
-        //
-    }
+        // Get the authenticated user
+        $user = Auth::user();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Cart $cart)
-    {
-        //
-    }
+        // Remove all items from the user's cart
+        Cart::where('user_id', $user->id)->delete();
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Cart $cart)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Cart $cart)
-    {
-        //
+        // Redirect with a success message
+        return redirect()->route('cart.show')->with('success', 'Your order checked out successfully');
     }
 }

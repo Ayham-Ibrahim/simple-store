@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h2>تعديل منتج</h2>
+    <h2>Edit Product</h2>
     <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')

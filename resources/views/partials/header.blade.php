@@ -26,9 +26,11 @@
             <button type="submit">Search</button> {{-- Changed from onclick JS to form submit --}}
         </form>
         <div class="cart-icon">
-            <a href="{{ route('cart.index') }}"> {{-- Link to cart page route --}}
+            <a href="{{ route('cart.show') }}">
                 <i class="fas fa-shopping-cart"></i>
-                {{-- Optionally display cart count here later --}}
+                <span class="cart-count">
+                    {{ auth()->user()->cartItems->count() }} {{-- Assuming you have a relation cartItems on the User model --}}
+                </span>
             </a>
         </div>
     </div>

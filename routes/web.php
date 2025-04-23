@@ -23,12 +23,6 @@ use Illuminate\Support\Facades\Auth;
 // });
 
 
-
-Route::get('/', [HomeController::class, 'index'])->name('home');
-
-// صفحة السلة
-Route::get('/cart', [CartController::class, 'index'])->name('cart');
-
 // لوحة تحكم الأدمن
 Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::get('/dashboard', fn() => view('admin.dashboard'))->name('dashboard');
@@ -58,4 +52,11 @@ Route::get('/category/{category:name}', [CategoryController::class, 'showInHome'
 Route::get('/search', [ProductController::class, 'search'])->name('search'); // Assuming search logic is in ProductController
 
 // Cart Page (Example - create CartController later)
-Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+
+Route::middleware('auth')->group(function () {
+    Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+    Route::get('/cart', [CartController::class, 'show'])->name('cart.show');
+    Route::delete('/cart/remove/{cartId}', [CartController::class, 'remove'])->name('cart.remove');
+    Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+
+});
