@@ -6,7 +6,7 @@
     <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
-        @include('admin.products.form', ['product' => $product])
+        @include('products.form', ['product' => $product])
         <button class="btn btn-primary">تحديث</button>
     </form>
 </div>

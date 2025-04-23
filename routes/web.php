@@ -5,6 +5,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,3 +46,16 @@ Route::get('/redirect-after-login', function () {
 
     return redirect()->route('home');
 })->middleware('auth')->name('redirect.after.login');
+
+// Home Page - Display categories and some products
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// Category Page - Display products by category slug
+// Use route model binding with the 'slug' column
+Route::get('/category/{category:name}', [CategoryController::class, 'showInHome'])->name('category.show');
+
+// Search Results Page
+Route::get('/search', [ProductController::class, 'search'])->name('search'); // Assuming search logic is in ProductController
+
+// Cart Page (Example - create CartController later)
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');

@@ -4,8 +4,21 @@
 </div>
 
 <div class="mb-3">
-    <label>الوصف</label>
-    <textarea name="description" class="form-control" required>{{ old('description', $product->description ?? '') }}</textarea>
+    <label>الفئة</label>
+    <select name="category_id" class="form-control" required>
+        <option value="">اختر فئة</option>
+        @foreach($categories as $category)
+            <option value="{{ $category->id }}"
+                {{ old('category_id', $product->category_id ?? '') == $category->id ? 'selected' : '' }}>
+                {{ $category->name }}
+            </option>
+        @endforeach
+    </select>
+</div>
+
+<div class="mb-3">
+    <label>الوحدة</label>
+    <input type="text" name="unit" class="form-control" value="{{ old('unit', $product->unit ?? '') }}" >
 </div>
 
 <div class="mb-3">

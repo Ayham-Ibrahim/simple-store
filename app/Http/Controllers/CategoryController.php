@@ -81,4 +81,13 @@ class CategoryController extends Controller
         $category->delete();
         return redirect()->route('categories.index')->with('success', 'تم حذف الفئة بنجاح.');
     }
+
+    public function showInHome(Category $category)
+    {
+        // Load products associated with this category
+        // Add pagination if needed
+        $products = $category->products()->paginate(12); // Example: 12 products per page
+
+        return view('products.category', compact('category', 'products'));
+    }
 }

@@ -1,23 +1,43 @@
-@extends('layouts.app')
+{{-- resources/views/home.blade.php --}}
+@extends('layouts.mainApp') {{-- Use the master layout --}}
 
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
+@section('title', 'Azadi Market - Home') {{-- Set the page title --}}
 
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
+@section('content') {{-- Define the content section --}}
 
-                    {{ __('You are logged in!') }}
-                </div>
-            </div>
-        </div>
+{{-- Check if categories exist --}}
+@if($categoriesWithProducts->isEmpty())
+<p>No categories or products found.</p>
+@else
+{{-- Loop through categories passed from the controller --}}
+@foreach($categoriesWithProducts as $category)
+<section>
+    {{-- Display category name, link to category page --}}
+    <h2 id="{{ $category->name }}">
+        <a href="{{ route('category.show', $category->name) }}" style="color: white; text-decoration: none;">
+            {{ $category->name }}
+        </a>
+    </h2>
+
+    {{-- Check if products exist in this category --}}
+    @if($category->products->isEmpty())
+    <p>No products found in this category.</p>
+    @else
+    <div class="category">
+        {{-- Loop through products in the category --}}
+        @foreach($category->products as $product)
+        {{-- Use the ProductCard component, passing the product data --}}
+        <x-product-card :product="$product" />
+        @endforeach
     </div>
-</div>
+    @endif
+</section>
+@endforeach
+@endif
+
 @endsection
+
+{{-- Add page-specific scripts if needed --}}
+@push('scripts')
+{{-- <script> console.log('Home page script loaded'); </script> --}}
+@endpush

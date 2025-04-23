@@ -9,7 +9,7 @@
             <tr>
                 <th>الصورة</th>
                 <th>الاسم</th>
-                <th>الوصف</th>
+                <th>الوحدة</th>
                 <th>السعر</th>
                 <th>التحكم</th>
             </tr>
@@ -19,8 +19,8 @@
             <tr>
                 <td><img src="{{ asset('storage/' . $product->image) }}" width="60"></td>
                 <td>{{ $product->name }}</td>
-                <td>{{ $product->description }}</td>
-                <td>{{ $product->price }} د.ل</td>
+                <td>{{ $product->unit}}</td>
+                <td>{{ $product->price }} ID</td>
                 <td>
                     <a href="{{ route('products.edit', $product->id) }}" class="btn btn-primary btn-sm">تعديل</a>
                     <form action="{{ route('products.destroy', $product->id) }}" method="POST" style="display:inline">

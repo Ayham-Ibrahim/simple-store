@@ -34,7 +34,7 @@ class ProductController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'unit' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'category_id' => 'required|exists:categories,id',
             'image' => 'nullable|image|max:2048',
@@ -47,7 +47,7 @@ class ProductController extends Controller
 
         Product::create([
             'name' => $request->name,
-            'description' => $request->description,
+            'unit' => $request->unit,
             'price' => $request->price,
             'category_id' => $request->category_id,
             'image' => $imagePath,
@@ -78,9 +78,9 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-            $request->validate([
+        $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'unit' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'category_id' => 'required|exists:categories,id',
             'image' => 'nullable|image|max:2048',
@@ -93,7 +93,7 @@ class ProductController extends Controller
 
         $product->update([
             'name' => $request->name,
-            'description' => $request->description,
+            'unit' => $request->unit,
             'price' => $request->price,
             'category_id' => $request->category_id,
         ]);
@@ -108,5 +108,23 @@ class ProductController extends Controller
     {
         $product->delete();
         return redirect()->route('products.index')->with('success', 'تم حذف المنتج.');
+    }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+
+        if (!$query) {
+            // Redirect back or show an error/empty page if query is empty
+            return redirect()->route('home')->with('error', 'Please enter a search term.');
+        }
+
+        // Simple search in name and description
+        $products = Product::where('name', 'LIKE', "%{$query}%")
+            ->orWhere('price', 'LIKE', "%{$query}%") // Optional: search description too
+            ->paginate(16); // Paginate results
+
+        // Pass the query back to the view if needed for display
+        return view('products.search-results', compact('products', 'query'));
     }
 }
