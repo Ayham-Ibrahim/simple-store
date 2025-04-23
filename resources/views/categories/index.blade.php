@@ -2,9 +2,9 @@
 
 @section('content')
 <div class="container">
-    <h1>قائمة الفئات</h1>
+    <h1>Category List</h1>
 
-    <a href="{{ route('categories.create') }}" class="btn btn-primary mb-3">إضافة فئة جديدة</a>
+    <a href="{{ route('categories.create') }}" class="btn btn-primary mb-3">Add New Category</a>
 
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
@@ -13,9 +13,9 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>الرقم</th>
-                <th>اسم الفئة</th>
-                <th>الإجراءات</th>
+                <th>id</th>
+                <th>name</th>
+                <th>actions</th>
             </tr>
         </thead>
         <tbody>
@@ -24,12 +24,12 @@
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $category->name }}</td>
                 <td>
-                    <a href="{{ route('categories.edit', $category) }}" class="btn btn-sm btn-warning">تعديل</a>
+                    <a href="{{ route('categories.edit', $category) }}" class="btn btn-sm btn-warning">edit</a>
 
-                    <form action="{{ route('categories.destroy', $category) }}" method="POST" class="d-inline" onsubmit="return confirm('هل أنت متأكد من الحذف؟');">
+                    <form action="{{ route('categories.destroy', $category) }}" method="POST" class="d-inline" onsubmit="return confirm('are you sure?');">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-sm btn-danger">حذف</button>
+                        <button type="submit" class="btn btn-sm btn-danger">delete</button>
                     </form>
                 </td>
             </tr>

@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h1>تعديل الفئة</h1>
+    <h1>Edit Category</h1>
 
     @if($errors->any())
         <div class="alert alert-danger">
@@ -18,11 +18,11 @@
         @csrf
         @method('PUT')
         <div class="mb-3">
-            <label for="name" class="form-label">اسم الفئة</label>
+            <label for="name" class="form-label">category name</label>
             <input type="text" name="name" id="name" class="form-control" required value="{{ old('name', $category->name) }}">
         </div>
-        <button type="submit" class="btn btn-success">تحديث</button>
-        <a href="{{ route('categories.index') }}" class="btn btn-secondary">رجوع</a>
+        <button type="submit" class="btn btn-success">update</button>
+        <a href="{{ route('categories.index') }}" class="btn btn-secondary">cancel</a>
     </form>
 </div>
 @endsection
